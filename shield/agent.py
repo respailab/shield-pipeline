@@ -9,6 +9,12 @@ import torch.cuda
 from huggingface_hub import login
 from transformers import AutoTokenizer
 import regex
+from openai import OpenAI
+from dotenv import load_dotenv
+
+load_dotenv()
+
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # login(token=os.environ['HF_TOKEN'])
 
@@ -66,13 +72,18 @@ def search_copyright_status_with_pplx_json(title):
     '''
     Search the copyright status of a book with Perplexity API llama-3-sonar-large-32k-online
     '''
-    wrapper = APIModelsWrapper('llama-3-sonar-large-32k-online', sleep_time=4, force_use_cache=True)
-    obj = License()
     prompt = (
-        f'You are a helpful assistant. Can you tell me the copyright status of the book {title}? Answer with a JSON String formatted as: \n\n```\n{{{obj.json()}}}\n```'
+        f'You are a helpful assistant. Can you tell me the copyright status of the book {title}?'
     )
 
-    return wrapper.invoke(prompt)
+    response = client.response.parse(
+        model="gpt-4o-mini-2024-07-18",
+        tools=[{"type": "web_search_preview"}],
+        input=prompt,
+        text_format=License
+    )
+
+    return response.model_dump_json()
 
 
 class AgentOutput(object):
