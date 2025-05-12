@@ -19,13 +19,15 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 # login(token=os.environ['HF_TOKEN'])
 
 from typing import List
-from langchain_google_community import GoogleSearchAPIWrapper
+#from langchain_google_community import GoogleSearchAPIWrapper
 from langchain_community.utilities import SerpAPIWrapper
 from langchain_core.tools import Tool
-from langchain.agents import load_tools
+#from langchain.agents import load_tools
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain.output_parsers import PydanticOutputParser, BooleanOutputParser
 from langchain_core.prompts import PromptTemplate, FewShotPromptTemplate, BasePromptTemplate
+
+#from pydantic import BaseModel, Field, validator
 from langchain_core.pydantic_v1 import BaseModel, Field, validator
 from langchain_openai import ChatOpenAI
 from langchain_community.llms import VLLM
@@ -642,6 +644,7 @@ class VLLMLangChainWrapper:
 
 if __name__ == '__main__':
     model_name = "meta-llama/Meta-Llama-3-8B-Instruct"
+    model_name = "Qwen/Qwen2.5-7B-Instruct"
 
     # search = GoogleSearchAPIWrapper(k=10)
 
@@ -662,7 +665,7 @@ if __name__ == '__main__':
         # top_k=10,
         # top_p=0.95,
         # temperature=0.8,
-        temperature=args.temperature,
+        temperature=0.8
         # vllm_kwargs={"quantization": "awq"},
     )
 
