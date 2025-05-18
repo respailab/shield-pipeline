@@ -28,8 +28,12 @@ class APIModelsWrapper:
             self.model = ChatPerplexity(temperature=args.temperature, model=model_name)
         elif model_name.startswith('gpt'):
             assert os.getenv('OPENAI_API_KEY') is not None
-            self.model = ChatOpenAI(temperature=args.temperature, api_key=os.getenv('OPENAI_API_KEY'), model
-            =model_name, organization=os.getenv('OPENAI_ORGANIZATION'))
+            self.model = ChatOpenAI(
+                    temperature=args.temperature, 
+                    api_key=os.getenv('OPENAI_API_KEY'), 
+                    model =model_name, 
+                    organization=os.getenv('OPENAI_ORGANIZATION')
+            )
         elif model_name.startswith('claude'):
             assert os.getenv('ANTHROPIC_API_KEY') is not None
             self.model = ChatAnthropic(temperature=args.temperature, model=model_name)
