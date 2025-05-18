@@ -11,7 +11,7 @@ from agent import CopyrightAgent, get_copyright_tool, make_copyright_agent
 from log import dump_gen
 from huggingface_hub import login
 
-login(os.getenv('HF_TOKEN'))
+#login(os.getenv('HF_TOKEN'))
 
 
 def eval_lcs(args, wrapper, dataset):

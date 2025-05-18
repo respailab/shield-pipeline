@@ -28,7 +28,7 @@ from langchain.output_parsers import PydanticOutputParser, BooleanOutputParser
 from langchain_core.prompts import PromptTemplate, FewShotPromptTemplate, BasePromptTemplate
 
 #from pydantic import BaseModel, Field, validator
-from langchain_core.pydantic_v1 import BaseModel, Field, validator
+from pydantic import BaseModel, Field, validator
 from langchain_openai import ChatOpenAI
 from langchain_community.llms import VLLM
 from langchain_core.messages import HumanMessage, AIMessage
@@ -45,8 +45,13 @@ from utils import *
 from public_records import search_book
 from api_chatbots import APIModelsWrapper
 
+
+from parse import parse_args
 from time import time, perf_counter
 
+
+
+args = parse_args()
 
 class LicensedMaterial(BaseModel):
     related: bool = Field(
@@ -59,15 +64,15 @@ class LicensedMaterial(BaseModel):
 
 class License(BaseModel):
     public_domain: bool = Field(
-        description="Whether the content is in the public domain.", default=True
+        description="Whether the content is in the public domain."
     )
     copyright_year: str = Field(
-        description="The year of the content's copyright.", default='N/A'
+        description="The year of the content's copyright."
     )
     copyrighted: bool = Field(
-        description="Whether copyrighted for the content.", default=False
+        description="Whether copyrighted for the content.",
     )
-    license: str = Field(description="The license of the content.", default="Public Domain")
+    license: str = Field(description="The license of the content.")
 
 
 def search_copyright_status_with_pplx_json(title):
@@ -75,10 +80,10 @@ def search_copyright_status_with_pplx_json(title):
     Search the copyright status of a book with Perplexity API llama-3-sonar-large-32k-online
     '''
     prompt = (
-        f'You are a helpful assistant. Can you tell me the copyright status of the book {title}?'
+        f'You are a helpful assistant. Can you tell me the copyright status of: {title}? If it is not copyrighted then fill license="Public Domain" and copyright_year="N/A"'
     )
 
-    response = client.response.parse(
+    response = client.responses.parse(
         model="gpt-4o-mini-2024-07-18",
         tools=[{"type": "web_search_preview"}],
         input=prompt,

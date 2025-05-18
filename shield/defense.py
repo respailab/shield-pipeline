@@ -92,8 +92,8 @@ class AgentDefenseWrapper(DefenseWrapper):
         if not self.run_after_defense:
             outputs_w_lp = outputs_wo_lp
 
-        self.agent.output_avg_time()
-        self.agent.reset_time()
+        #self.agent.output_avg_time()
+        #self.agent.reset_time()
 
         return outputs_wo_lp, outputs_w_lp
 

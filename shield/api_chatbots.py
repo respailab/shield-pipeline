@@ -5,7 +5,8 @@ import openai
 import anthropic
 import langchain
 
-from langchain_community.chat_models import ChatPerplexity, ChatOpenAI
+from langchain_community.chat_models import ChatPerplexity
+from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
 from parse import args
 from langchain_core.messages.ai import AIMessage
